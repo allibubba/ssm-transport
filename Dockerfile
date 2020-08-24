@@ -12,5 +12,5 @@ run gem install rubocop
 run gem install rspec
 run apt-get update
 run apt-get install less
-COPY . .
+# COPY . .
 CMD aws --version

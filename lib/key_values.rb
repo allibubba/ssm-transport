@@ -2,6 +2,7 @@
 
 require 'json'
 
+# retrieve SSM parameter values and format
 class KeyValues
   def initialize(profile, data, region = 'us-east-1', env = 'master')
     @profile = profile
@@ -15,15 +16,15 @@ class KeyValues
     --names"
   end
 
-  def perform
-    get_data.flatten(1)
+  def format_data
+    reference_data.flatten(1)
   rescue StandardError => e
     puts "error reached #{e}"
   end
 
   private
 
-  def get_data
+  def reference_data
     response = []
     parameters.each_slice(9) do |parameter_set|
       command = @command_base.dup

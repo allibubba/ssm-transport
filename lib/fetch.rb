@@ -10,7 +10,16 @@ class Fetch
   end
 
   def parameters
-    JSON.parse(`aws --profile #{@profile} --region #{@region} \
-                ssm describe-parameters`)['Parameters']
+    aws_ssm_keys
+  end
+
+  def parameters
+    aws_ssm_keys['Parameters']
+  end
+
+  private
+
+  def aws_ssm_keys
+    JSON.parse(`aws --profile #{@profile} --region #{@region} ssm describe-parameters`)
   end
 end

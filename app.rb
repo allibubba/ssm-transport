@@ -3,10 +3,7 @@
 
 require 'json'
 require 'pp'
-
-require './lib/fetch.rb'
-require './lib/key_values.rb'
-require './lib/push.rb'
+Dir["./lib/*.rb"].each {|file| require file }
 
 # interface to pull ssm params from one account and push to another
 class App

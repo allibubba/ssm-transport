@@ -1,0 +1,31 @@
+{
+  "Parameters": [
+    {
+      "Name": "/master/Special/PrivateKey",
+      "Type": "String",
+      "LastModifiedDate": 1581829442.385,
+      "LastModifiedUser": "adventureclub@nike.com",
+      "Version": 1,
+      "Tier": "Standard",
+      "Policies": []
+    },
+    {
+      "Name": "/master/External/ID",
+      "Type": "String",
+      "LastModifiedDate": 1581829469.549,
+      "LastModifiedUser": "adventureclub@nike.com",
+      "Version": 1,
+      "Tier": "Standard",
+      "Policies": []
+    },
+    {
+      "Name": "/production/External/ID",
+      "Type": "String",
+      "LastModifiedDate": 1581829570.182,
+      "LastModifiedUser": "adventureclub@nike.com",
+      "Version": 1,
+      "Tier": "Standard",
+      "Policies": []
+    }
+  ]
+}

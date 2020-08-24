@@ -4,6 +4,14 @@ require 'json'
 
 # push SSM parameters to profile
 class Push
+  def self.trim_environment(name)
+    cleaned = name.gsub(%r{^(\/master)}, '')
+    return cleaned unless cleaned.scan(%r{\/}).length == 1 &&
+                          cleaned.index('/').zero?
+
+    cleaned.gsub(%r{\/}, '')
+  end
+
   def initialize(profile, data, region = 'us-east-1', env = 'master')
     @profile = profile
     @data = data
@@ -13,20 +21,11 @@ class Push
 
   def perform
     @data.each do |param|
-      param['Name'] = sanitize(param['Name'])
-      puts param['Name']
-      # `aws --profile #{@to_profile} --region #{@region} ssm put-parameter
-      # --cli-input-json '#{param.to_json}'`
+      param['Name'] = self.class.trim_environment(param['Name'])
+      `aws --profile #{@to_profile} --region #{@region} ssm put-parameter
+      --cli-input-json '#{param.to_json}'`
+      puts "Pushed #{param['Name']}"
     end
   end
 
-  private
-
-  def sanitize(name)
-    cleaned = name.gsub(%r{^(\/master)}, '')
-    return cleaned unless cleaned.scan(%r{\/}).length == 1 &&
-                          cleaned.index('/').zero?
-
-    cleaned.gsub(%r{\/}, '')
-  end
 end

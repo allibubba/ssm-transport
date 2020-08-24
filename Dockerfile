@@ -5,8 +5,9 @@ run curl -O https://bootstrap.pypa.io/get-pip.py
 run python3 get-pip.py
 run pip install awscli
 run pip install --upgrade git+https://github.com/Nike-Inc/gimme-aws-creds.git
-run gem install rubocop
-run gem install rspec
+run gem install rubocop rspec colorize
+# run gem install rspec
+# run gem install colorize
 run apt-get update
 run apt-get install less
 CMD aws --version

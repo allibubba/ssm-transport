@@ -4,7 +4,7 @@ require 'json'
 
 # retrieve SSM parameter values and format
 class KeyValues
-  def initialize(profile, data, region = 'us-east-1', env = 'master')
+  def initialize(profile, data, region = 'us-east-1', env = 'production')
     @profile = profile
     @data = data
     @region = region

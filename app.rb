@@ -8,17 +8,19 @@ Dir["./lib/*.rb"].each {|file| require file }
 
 # interface to pull ssm params from one account and push to another
 class App
-  def initialize(from_profile, to_profile, region = 'us-east-1')
+  def initialize(from_profile, to_profile = nil, env = nil, region = 'us-east-1')
     @from_profile = from_profile
     @to_profile = to_profile
+    @env = env
     @region = region
   end
 
   def perform
     puts "Collecting data...".colorize(:light_blue)
     pre_commit_payload reference_data
-    puts " Push the #{reference_data.length} key(s) and values listed above? [Y/N]".red
-    cancel_update(gets) if gets.chomp.downcase != 'y'
+    puts " Push the #{reference_data.length} key(s) and values listed above? [y/n]".red
+    response = STDIN.gets.chomp
+    cancel_update(response) if response != 'y'
     push_payload(reference_data)
   end
 
@@ -32,7 +34,7 @@ class App
 
   def pre_commit_payload(data)
     data.each do |param| 
-      puts "key: #{Push.trim_environment(param['Name'])}, value: #{param['Value']}"
+      puts "key: #{Push.trim_environment(param['Name'], @env)}, value: #{param['Value']}"
     end
   end
 
@@ -56,3 +58,4 @@ class App
 end
 
 App.new(*ARGV).perform
+# App.new('nac', :foo, 'production').perform

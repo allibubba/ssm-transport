@@ -1,0 +1,7 @@
+inherit_from: .rubocop_todo.yml
+
+Layout/EmptyLinesAroundAttributeAccessor:
+  Enabled: true
+
+Layout/SpaceAroundMethodCallOperator:
+  Enabled: true

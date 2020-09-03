@@ -8,11 +8,11 @@ select at least two accounts, note the profile names generated in ~/.aws/credent
 
 run the script by passing in the from profile and the to profile names
 ```
-ruby data_mapper.rb <profile-string> <profile-string>
+ruby app.rb <profile-string> <profile-string> <environment-string>
 ```
 
 ## Linting with Rubocop
 
 ```
-docker run --rm -ti -v <app-directory>:/usr/src/app ruby:latest rubocop .
+docker run --rm -ti -v <app-directory>/ssm-transport:/usr/src/app ruby:latest rubocop --enable-pending-cops
 ```

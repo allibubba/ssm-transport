@@ -24,7 +24,6 @@ class App
     push_payload(reference_data)
   end
 
-
   private
 
   def push_payload(data)

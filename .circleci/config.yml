@@ -1,15 +1,83 @@
-version: 2.1
+version: 2.0
 orbs:
-  ruby: circleci/ruby@0.1.2 
-
+  ruby: circleci/ruby@1.0
 jobs:
   build:
+    environment:
+      CC_TEST_REPORTER_ID: b6cec2e333a8d3c1816187ff44aaf42c9d2117c733fb183253b735f724d3f248
+      BUILD_NUMBER: pipeline.number
+
     docker:
-      - image: circleci/ruby:2.6.3-stretch-node
-    executor: ruby/default
+      - image: cimg/ruby:2.7-node # use a tailored CircleCI docker image.
+    working_directory: ~/project
     steps:
-      - checkout
+      - checkout # pull down our git code.
       - run:
-          name: Which bundler?
-          command: bundle -v
-      - ruby/bundle-install
+          name: Install gems
+          command: |
+            gem install bundler
+            bundle install
+      - run:
+          name: Setup Code Climate test-reporter
+          command: |
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
+
+      - run:
+          name: Run tests
+          command: |
+            mkdir -p test-results/rspec test-artifacts
+            ./cc-test-reporter before-build
+            rspec --profile 10 \
+                  --color \
+                  --order random \
+                  --format RspecJunitFormatter \
+                  --out test-results/rspec/rspec.xml \
+                  --format progress \
+                  -- spec
+            ./cc-test-reporter after-build --coverage-input-type simplecov --exit-code $? --id b6cec2e333a8d3c1816187ff44aaf42c9d2117c733fb183253b735f724d3f248
+      - run:
+          name: Code Climate Test Coverage
+          command: |
+            ./cc-test-reporter format-coverage -t simplecov -o "coverage/codeclimate.$CIRCLE_NODE_INDEX.json"
+      - persist_to_workspace:
+          root: coverage
+          paths:
+            - codeclimate.*.json
+      - store_test_results:
+          path: test-results
+      - store_artifacts:
+          path: test-artifacts
+
+
+  upload-coverage:
+    docker:
+      - image: circleci/ruby:2.5.1-stretch-node
+    environment:
+      CC_TEST_REPORTER_ID: b6cec2e333a8d3c1816187ff44aaf42c9d2117c733fb183253b735f724d3f248
+    working_directory: ~/project
+
+    steps:
+      - *attach_workspace
+
+      - run:
+          name: Install Code Climate Test Reporter
+          command: |
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
+      - run:
+          command: |
+            ./cc-test-reporter sum-coverage --output - codeclimate.*.json | ./cc-test-reporter upload-coverage --debug --input -
+
+workflows:
+  version: 2
+
+  commit:
+    jobs:
+      - build
+      - test:
+          requires:
+             - build 
+      - upload-coverage:
+          requires:
+             - test 

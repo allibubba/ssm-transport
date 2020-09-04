@@ -23,7 +23,13 @@ class Push
     @data.each do |param|
       param['Name'] = self.class.trim_environment(param['Name'], @env)
       puts "pushing #{param}"
-      `aws --profile #{@profile} --region #{@region} ssm put-parameter --cli-input-json '#{param.to_json}' --overwrite`
+      send_param_to_aws param
     end
+  end
+
+  private
+
+  def send_param_to_aws(param)
+    `aws --profile #{@profile} --region #{@region} ssm put-parameter --cli-input-json '#{param.to_json}' --overwrite`
   end
 end

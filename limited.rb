@@ -7,7 +7,7 @@ require 'colorize'
 Dir["./lib/*.rb"].each {|file| require file }
 
 # interface to pull ssm params from one account and push to another
-class App
+class Limited
   def initialize(from_profile, to_profile = nil, env = nil, region = 'us-east-1')
     @from_profile = from_profile
     @to_profile = to_profile
@@ -28,12 +28,12 @@ class App
   private
 
   def push_payload(data)
-    # Push.new(@to_profile,data).perform
+    Push.new(@to_profile,data).perform
     puts "Done".green
   end
 
   def pre_commit_payload(data)
-    data.each do |param| 
+    Array(data).each do |param| 
       puts "key: #{Push.trim_environment(param['Name'], @env)}, value: #{param['Value']}"
     end
   end
@@ -53,9 +53,20 @@ class App
 
   # gets all SSM Params for this account
   def source
-    @source ||= Fetch.new(@from_profile, @region).parameters
+    puts '------------------------------------------------'.colorize(:light_blue)
+    puts "Input comma separated keys to migrate".colorize(:light_blue)
+    puts '------------------------------------------------'.colorize(:light_blue)
+    response = $stdin.gets.chomp
+    keys = Array(response.split(',').map(&:strip))
+    n = []
+    keys.each do |k|
+      f = {}
+      f['Name'] = k
+      n << f
+    end
+    puts n
+    n
   end
 end
 
-App.new(*ARGV).perform
-# App.new('nac', :foo, 'production').perform
+Limited.new(*ARGV).perform

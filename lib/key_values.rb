@@ -3,6 +3,7 @@
 require 'json'
 
 # retrieve SSM parameter values and format
+# TODO, refactor into single fetch, abstract fetch command
 class KeyValues
   def initialize(profile, data, region = 'us-east-1', env = 'production')
     @profile = profile
@@ -19,7 +20,8 @@ class KeyValues
   def format_data
     reference_data.flatten(1)
   rescue StandardError => e
-    puts "error reached #{e}"
+    puts "Error with data #{e}"
+    exit(1)
   end
 
   private

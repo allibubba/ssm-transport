@@ -5,3 +5,4 @@ test-artifacts
 test-results
 test-results/*
 test-results/*
+test-reporter-*

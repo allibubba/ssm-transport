@@ -3,8 +3,6 @@ orbs:
   ruby: circleci/ruby@1.0
 jobs:
   build:
-    environment:
-      MY_TEST_REPORTER_ID: $CC_TEST_REPORTER_ID
     docker:
       - image: cimg/ruby:2.7-node # use a tailored CircleCI docker image.
     working_directory: ~/project
@@ -33,4 +31,4 @@ jobs:
                   --out test-results/rspec/rspec.xml \
                   --format progress \
                   -- spec
-            ./cc-test-reporter after-build --coverage-input-type simplecov --exit-code $? --id $MY_TEST_REPORTER_ID
+            ./cc-test-reporter after-build --coverage-input-type simplecov --exit-code $? --id $CC_TEST_REPORTER_ID

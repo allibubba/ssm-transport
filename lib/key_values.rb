@@ -26,6 +26,7 @@ class KeyValues
 
   private
 
+  # :nocov:
   def reference_data
     response = []
     parameters.each_slice(9) do |parameter_set|
@@ -43,4 +44,5 @@ class KeyValues
   def parameters
     @parameters ||= param_names.select { |p| p.include? @env }
   end
+  # :nocov:
 end

@@ -15,7 +15,9 @@ class Fetch
 
   private
 
+  # :nocov:
   def aws_ssm_keys
     JSON.parse(`aws --profile #{@profile} --region #{@region} ssm describe-parameters`)
   end
+  # :nocov:
 end

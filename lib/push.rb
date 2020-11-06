@@ -29,7 +29,9 @@ class Push
 
   private
 
+  # :nocov:
   def send_param_to_aws(param)
     `aws --profile #{@profile} --region #{@region} ssm put-parameter --cli-input-json '#{param.to_json}' --overwrite`
   end
+  # :nocov:
 end

@@ -4,12 +4,12 @@ orbs:
 jobs:
   build:
     environment:
-      CC_TEST_REPORTER_ID: b6cec2e333a8d3c1816187ff44aaf42c9d2117c733fb183253b735f724d3f248
+      MY_TEST_REPORTER_ID: $CC_TEST_REPORTER_ID
     docker:
       - image: cimg/ruby:2.7-node # use a tailored CircleCI docker image.
     working_directory: ~/project
     steps:
-      - checkout # pull down our git code.
+      - checkout
       - run:
           name: Install gems
           command: |
@@ -33,4 +33,4 @@ jobs:
                   --out test-results/rspec/rspec.xml \
                   --format progress \
                   -- spec
-            ./cc-test-reporter after-build --coverage-input-type simplecov --exit-code $? --id b6cec2e333a8d3c1816187ff44aaf42c9d2117c733fb183253b735f724d3f248
+            ./cc-test-reporter after-build --coverage-input-type simplecov --exit-code $? --id $MY_TEST_REPORTER_ID

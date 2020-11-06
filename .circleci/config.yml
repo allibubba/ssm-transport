@@ -34,7 +34,3 @@ jobs:
                   --format progress \
                   -- spec
             ./cc-test-reporter after-build --coverage-input-type simplecov --exit-code $? --id b6cec2e333a8d3c1816187ff44aaf42c9d2117c733fb183253b735f724d3f248
-      - run:
-          name: Code Climate Test Coverage
-          command: |
-            ./cc-test-reporter format-coverage -t simplecov -o "coverage/codeclimate.$CIRCLE_NODE_INDEX.json"

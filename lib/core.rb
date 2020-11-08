@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require 'colorize'
+require 'key_values'
+
 # collect source and update target prameters
 class Core
   def initialize(from_profile, to_profile, source, region = 'us-east-1', env = nil)
@@ -21,6 +24,7 @@ class Core
 
   private
 
+  # :nocov:
   def push_payload(data)
     Push.new(@to_profile, data).perform
     puts 'Done'.green
@@ -42,6 +46,7 @@ class Core
 
   # for each SSM Key retrieve it's value and return an array of hashes
   def reference_data
-    @reference_data ||= KeyValues.new(@from_profile, source).format_data
+    @reference_data ||= KeyValues.new(@from_profile, @source).format_data
   end
+  # :nocov:
 end

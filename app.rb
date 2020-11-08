@@ -2,8 +2,6 @@
 # frozen_string_literal: true
 
 require 'json'
-require 'pp'
-require 'colorize'
 Dir["./lib/*.rb"].each {|file| require file }
 
 # interface to pull ssm params from one account and push to another

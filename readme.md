@@ -24,7 +24,7 @@ docker run --rm -ti -v <app-directory>/ssm-transport:/usr/src/app ruby:latest ru
 ## Run Tests
 
 ```
-docker run --rm -ti -v $HOME/tools/ssm-transport:/usr/src/app ruby:latest \
+docker run --rm -ti -v <app-directory>/ssm-transport:/usr/src/app ruby:latest \
 rspec \
 --profile 10 \
 --color \

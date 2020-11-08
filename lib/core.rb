@@ -5,7 +5,7 @@ require_relative 'key_values'
 
 # collect source and update target prameters
 class Core
-  def initialize(from_profile, to_profile, source, options)
+  def initialize(from_profile, to_profile, source, options = {})
     @from_profile = from_profile
     @to_profile = to_profile
     @source = source

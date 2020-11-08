@@ -14,7 +14,7 @@ class App
   end
 
   def perform
-    Core.new(@from_profile, @to_profile, source, region, env)
+    Core.new(@from_profile, @to_profile, source, {region: region, env: env})
   end
 
   # gets all SSM Params for this account

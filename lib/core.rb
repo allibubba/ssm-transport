@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'colorize'
-require 'key_values'
+require_relative 'key_values'
 
 # collect source and update target prameters
 class Core

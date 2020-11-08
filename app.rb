@@ -14,14 +14,25 @@ class App
   end
 
   def perform
-    Core.new(from_profile, to_profile, source, region, env)
+    Core.new(@from_profile, @to_profile, source, region, env)
+  end
+
+  # gets all SSM Params for this account
+  def source
+    puts '------------------------------------------------'.colorize(:light_blue)
+    puts 'Input keys? [y/n]'.colorize(:light_blue)
+    puts '------------------------------------------------'.colorize(:light_blue)
+    $stdin.gets.chomp == 'y' ? source_keys : all_keys
   end
 
   private
 
-  # gets all SSM Params for this account
-  def source
+  def all_keys
     @source ||= Fetch.new(@from_profile, @region).parameters
+  end
+
+  def source_keys
+    Source.new
   end
 end
 

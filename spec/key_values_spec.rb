@@ -25,10 +25,10 @@ describe KeyValues do
 
   describe 'format_data' do
     context 'valid data' do
-      # it 'returns an array' do
-      #   allow(kv_instance).to receive(:reference_data).and_return(mock_reference_data)
-      #   expect(kv_instance.format_data.count).to be(2)
-      # end
+      it 'returns an array' do
+        allow(kv_instance).to receive(:reference_data).and_return(mock_reference_data)
+        expect(kv_instance.format_data.count).to be(2)
+      end
     end
     context 'invalid data' do
       it 'exits' do

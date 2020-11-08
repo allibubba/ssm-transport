@@ -5,12 +5,12 @@ require_relative 'key_values'
 
 # collect source and update target prameters
 class Core
-  def initialize(from_profile, to_profile, source, region = 'us-east-1', env = nil)
+  def initialize(from_profile, to_profile, source, options)
     @from_profile = from_profile
     @to_profile = to_profile
     @source = source
-    @region = region
-    @env = env
+    @region = options['region']
+    @env = options['env']
   end
 
   def perform
